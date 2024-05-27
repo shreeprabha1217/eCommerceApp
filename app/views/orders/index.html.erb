@@ -1,0 +1,30 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Orders</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>User_id</th>
+      <th>Product_id</th>
+      <th>Product_quantity</th>
+      <th>Total</th>
+      <th>Buy</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.user_id %></td>
+        <td><%= order.product_id %></td>
+        <td><%= order.product_quantity %>        </td>
+        <td><%= order.total%></td>
+        <td><%= link_to 'Buy', buy_order_path(order, total: order.total), method: :post %></td>
+        <td><%= link_to 'Delete', order_path(order), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+

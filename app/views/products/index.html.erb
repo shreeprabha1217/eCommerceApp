@@ -1,0 +1,62 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Products</h1>
+
+<table border="1">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Purchase</th>
+      <th>Add To Cart</th>
+     
+    </tr>
+  </thead>
+  <tbody>
+    <% @products.each do |product| %>
+      <tr>
+        <td><%= product.product_name %></td>
+        <td><%= product.price %></td>
+        <td>
+        <div class="dropdown">
+    <select class="dropbtn" id="quantitySelect_<%= product.id %>" name="dropdown">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <!-- Add more options as needed -->
+    </select>
+  </div>
+
+        </td>
+        <td>
+        <%= button_to "Add to Orders", add_to_orders_path(product_id: product.id), method: :post, form: { id: "product_form_#{product.id}" }, data: { product_id: product.id } %>
+
+        </td>
+
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const addToOrderButtons = document.querySelectorAll("[id^='product_form_']");
+    
+    addToOrderButtons.forEach(function(button) {
+      button.addEventListener("submit", function(event) {
+        const productId = button.dataset.productId;
+        const dropdown = document.getElementById("quantitySelect_" + productId);
+        const productQuantity = dropdown.value;
+
+        // Add product quantity as a hidden input field to the form
+        const hiddenInput = document.createElement("input");
+        hiddenInput.setAttribute("type", "hidden");
+        hiddenInput.setAttribute("name", "product_quantity");
+        hiddenInput.setAttribute("value", productQuantity);
+        button.appendChild(hiddenInput);
+      });
+    });
+  });
+</script>
+
